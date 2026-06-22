@@ -127,11 +127,15 @@ nav.scrolled { border-bottom: 1px solid var(--line); }
 .ach-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: 64px; }
 .ach-title { font-family: var(--fh); font-size: clamp(28px, 3.4vw, 44px); line-height: 1.1; }
 .ach-sub { font-size: 14px; letter-spacing: 0.02em; color: var(--muted); max-width: 320px; text-align: right; }
-.ach-award { display: flex; align-items: center; gap: 18px; padding: 30px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 56px; }
-.aw-star { font-size: 26px; color: var(--red); line-height: 1; }
-.aw-text b { font-family: var(--fh); font-size: 18px; letter-spacing: 0.02em; }
-.aw-text span { display: block; font-size: 14px; color: var(--soft); margin-top: 4px; }
-.ach-clients { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.ach-award { display: grid; grid-template-columns: auto 1fr; border: 1px solid var(--line); margin-bottom: 56px; align-items: start; }
+.ach-award-photo { width: 320px; }
+.ach-award-photo img { display: block; width: 100%; height: auto; }
+.ach-award-body { padding: 52px 56px; display: flex; flex-direction: column; justify-content: center; border-left: 1px solid var(--line); }
+.aw-eyebrow { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--red); margin-bottom: 20px; }
+.aw-title { font-family: var(--fh); font-size: clamp(40px, 4.8vw, 72px); line-height: 0.95; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 6px; }
+.aw-medal { font-family: var(--fh); font-size: clamp(40px, 4.8vw, 72px); line-height: 0.95; letter-spacing: -0.01em; color: var(--muted); margin-bottom: 32px; }
+.aw-desc { font-size: 14px; line-height: 1.7; color: var(--soft); max-width: 420px; padding-top: 28px; border-top: 1px solid var(--line); }
+.ach-clients { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
 .acl { background: var(--bg); padding: 38px 32px; }
 .acl-name { font-family: var(--fh); font-size: 22px; letter-spacing: 0.02em; margin-bottom: 8px; }
 .acl-tag { font-size: 13px; color: var(--muted); }
@@ -306,13 +310,25 @@ footer { padding: 70px 0 40px; background: var(--ink); color: var(--bg); border-
       <div class="ach-sub">Бренды, для которых мы реализовали уникальные концепции.</div>
     </div>
     <div class="ach-award reveal">
-      <div class="aw-star">&#9733;</div>
-      <div class="aw-text"><b>Silver Mercury — серебро</b><span>Номинация «Лучший событийный мерч» — свитер «Порвём за Россию» × Russia Today</span></div>
+      <div class="ach-award-photo">
+        <img src="images/porvem-feat.webp" alt="Свитер «Порвём за Россию»">
+      </div>
+      <div class="ach-award-body">
+        <div class="aw-eyebrow">&#9733; Премия · 2026</div>
+        <div class="aw-title">Silver</div>
+        <div class="aw-medal">Mercury</div>
+        <div class="aw-desc">Номинация «Лучший событийный мерч» — свитер «Порвём за Россию» × Russia Today</div>
+      </div>
     </div>
     <div class="ach-clients reveal">
       <div class="acl"><div class="acl-name">ВГТРК</div><div class="acl-tag">Медиахолдинг</div></div>
       <div class="acl"><div class="acl-name">МИД России</div><div class="acl-tag">Госструктура</div></div>
       <div class="acl"><div class="acl-name">Russia Today</div><div class="acl-tag">Телеканал</div></div>
+      <div class="acl"><div class="acl-name">Советский Спорт</div><div class="acl-tag">Издание</div></div>
+      <div class="acl"><div class="acl-name">Glavkosmos</div><div class="acl-tag">Госкорпорация</div></div>
+      <div class="acl"><div class="acl-name">НМГ Продакшн</div><div class="acl-tag">Кинопроизводство</div></div>
+      <div class="acl"><div class="acl-name">Интервидение</div><div class="acl-tag">Медиа</div></div>
+      <div class="acl"><div class="acl-name">Kaspersky</div><div class="acl-tag">Технологии</div></div>
     </div>
   </div>
 </section>
