@@ -45,10 +45,11 @@
   --black:  #0E0C0A;
   --cream:  #F2EDDF;
   --cream2: #E8E1CE;
+  --bg:     #FFFFFF;
   --ink:    #161310;
   --mid:    #6B6151;
   --muted:  #A89D88;
-  --rule:   #CDC4AC;
+  --rule:   #E6E3DB;
   --fh: 'Tenor Sans', sans-serif;
   --fm: 'Tenor Sans', sans-serif;
   --fs: 'Playfair Display', serif;
@@ -58,7 +59,7 @@
   --col: 1px solid var(--ink);
 }
 html { scroll-behavior: smooth; }
-body { font-family: var(--fb); background: var(--cream); color: var(--ink); -webkit-font-smoothing: antialiased; }
+body { font-family: var(--fb); background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
 .wrap { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
 
 /* GRID SYSTEM — visible structural lines */
@@ -73,7 +74,7 @@ body { font-family: var(--fb); background: var(--cream); color: var(--ink); -web
 .mlabel .dot { color: var(--red); }
 
 /* NAV */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--cream); border-bottom: 1px solid var(--ink); }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--ink); }
 .nav-row { display: flex; align-items: center; justify-content: space-between; height: 56px; }
 .nav-mark { display: flex; align-items: center; text-decoration: none; }
 .nav-mark span { color: var(--red); }
@@ -85,7 +86,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(
 .nav-links a.cta:hover { background: var(--ink); }
 
 /* HERO */
-.hero { padding-top: 56px; background: var(--cream); }
+.hero { padding-top: 56px; background: var(--bg); }
 .hero-grid { min-height: calc(100vh - 56px); display: flex; flex-direction: column; }
 .hero-top { flex: 1; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
 .hero-top-left { padding: 80px 40px 40px; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--ink); }
@@ -127,7 +128,7 @@ h1.hero-title { font-family: var(--fh); font-weight: 600; text-transform: upperc
 .sh-desc { font-size: 16px; font-weight: 300; color: var(--mid); line-height: 1.8; max-width: 460px; }
 
 /* MANIFESTO / APPROACH */
-.approach { background: var(--cream); }
+.approach { background: var(--bg); }
 .app-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); border-bottom: 1px solid var(--ink); }
 .app-cell { padding: 64px 40px; border-right: 1px solid var(--ink); }
 .app-cell:last-child { border-right: none; }
@@ -232,7 +233,7 @@ h1.hero-title { font-family: var(--fh); font-weight: 600; text-transform: upperc
 .cl-value { font-family: var(--fh); font-size: 22px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.02em; }
 
 /* FOOTER */
-footer { background: var(--cream); border-top: 1px solid var(--ink); }
+footer { background: var(--bg); border-top: 1px solid var(--ink); }
 .foot-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; }
 .foot-cell { padding: 24px 40px; border-right: 1px solid var(--rule); display: flex; align-items: center; }
 .foot-cell:last-child { border-right: none; justify-content: flex-end; }
@@ -287,6 +288,36 @@ footer { background: var(--cream); border-top: 1px solid var(--ink); }
 .variant-switch a:not(.active):hover { color: var(--cream); }
 .variant-switch .vs-label { padding: 12px 14px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(242,237,223,0.3); border-right: 1px solid rgba(242,237,223,0.12); display: flex; align-items: center; }
 @media (max-width: 640px) { .variant-switch { right: 12px; bottom: 12px; } .variant-switch .vs-label { display: none; } .variant-switch a { padding: 10px 14px; font-size: 11px; } }
+
+/* hero award highlight */
+.hero-award { display: flex; align-items: center; gap: 14px; margin: 28px 0 36px; padding: 16px 18px; border: 1px solid var(--ink); background: rgba(194,46,46,0.04); }
+.ha-icon { font-size: 22px; color: var(--red); line-height: 1; }
+.ha-text { display: flex; flex-direction: column; gap: 2px; }
+.ha-text b { font-family: var(--fh); font-size: 14px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink); }
+.ha-text span { font-size: 12px; color: var(--mid); }
+
+/* ===== FEATURED (крупным планом) ===== */
+.featured { background: var(--bg); }
+.feat-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.feat-card { border-right: 1px solid var(--ink); display: flex; flex-direction: column; }
+.feat-card:last-child { border-right: none; }
+.feat-visual { aspect-ratio: 3/4; position: relative; overflow: hidden; background: var(--cream2); }
+.feat-visual img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.4,0,.2,1); }
+.feat-card:hover .feat-visual img { transform: scale(1.04); }
+.feat-dark { background: var(--ink); display: flex; align-items: center; justify-content: center; }
+.feat-ph { font-family: var(--fh); font-size: 6vw; line-height: 0.95; text-align: center; text-transform: uppercase; color: var(--cream); opacity: 0.12; letter-spacing: -0.01em; }
+.feat-phtag { position: absolute; bottom: 16px; left: 16px; font-family: var(--fm); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(242,237,223,0.4); }
+.feat-badge { position: absolute; top: 0; left: 0; z-index: 2; background: var(--red); color: #fff; font-family: var(--fm); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 9px 13px; line-height: 1.3; display: flex; align-items: center; gap: 6px; }
+.feat-body { padding: 24px 28px 32px; }
+.feat-tag { font-family: var(--fm); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
+.feat-title { font-family: var(--fh); font-size: clamp(20px, 2vw, 26px); text-transform: uppercase; letter-spacing: 0.01em; color: var(--ink); margin-bottom: 10px; line-height: 1.05; }
+.feat-line { font-size: 14px; color: var(--mid); line-height: 1.5; max-width: 320px; }
+@media (max-width: 960px) {
+  .feat-grid { grid-template-columns: 1fr; }
+  .feat-card { border-right: none; border-bottom: 1px solid var(--ink); }
+  .feat-card:last-child { border-bottom: none; }
+  .feat-ph { font-size: 18vw; }
+}
 </style>
 </head>
 <body>
@@ -317,23 +348,22 @@ footer { background: var(--cream); border-top: 1px solid var(--ink); }
             <span class="mlabel">001 / Обзор</span>
           </div>
           <h1 class="hero-title">
-            <span class="htl">Мерч —</span>
-            <span class="htl accent">это язык</span>
-            <span class="htl">бренда</span>
+            <span class="htl">Мерч,</span>
+            <span class="htl">который</span>
+            <span class="htl accent">хочется</span>
+            <span class="htl accent">носить</span>
           </h1>
-          <div class="hero-coords">
-            <div class="hc-item"><b>Полный цикл</b>от концепции до доставки</div>
-            <div class="hc-item"><b>8 лет</b>опыта в производстве</div>
-            <div class="hc-item"><b>1000+</b>позиций разработано</div>
-          </div>
         </div>
         <div class="hero-top-right">
-          <p class="hero-stmt">Мы не наносим логотип на футболку. Мы переводим <b>ДНК бренда</b> на язык вещей — так, чтобы её можно было держать в руках.</p>
+          <p class="hero-stmt">Не логотип на футболке, а смысл бренда — в вещи, которую <b>хочется носить</b>. Каждый проект — индивидуально, с нуля.</p>
+          <div class="hero-award">
+            <div class="ha-icon">&#9733;</div>
+            <div class="ha-text"><b>Silver Mercury · серебро</b><span>Номинация «Лучший событийный мерч»</span></div>
+          </div>
           <div class="hero-clients-list">
             <div class="hcl-row"><span class="hcl-name">ВГТРК</span><span class="hcl-tag">Медиахолдинг</span></div>
+            <div class="hcl-row"><span class="hcl-name">МИД России</span><span class="hcl-tag">Госструктура</span></div>
             <div class="hcl-row"><span class="hcl-name">Russia Today</span><span class="hcl-tag">Телеканал</span></div>
-            <div class="hcl-row"><span class="hcl-name">Интервидение</span><span class="hcl-tag">Медиа</span></div>
-            <div class="hcl-row"><span class="hcl-name">НМГ Продакшен</span><span class="hcl-tag">Кино</span></div>
           </div>
         </div>
       </div>
@@ -354,47 +384,64 @@ footer { background: var(--cream); border-top: 1px solid var(--ink); }
       <div class="sh-left">
         <div>
           <div class="sh-tag">002 / Подход</div>
-          <div class="sh-title">Ваши ценности —<br>в каждой детали</div>
+          <div class="sh-title">Не мерч.<br>Индивидуальная<br>разработка</div>
         </div>
-        <div class="sh-desc">Стандартный мерч — это белый фон и чёрные буквы. Мы зачёркиваем этот подход и работаем от смыслов Вашего бренда.</div>
+        <div class="sh-desc">Никаких шаблонов и готовых каталогов. Каждая коллекция рождается из смысла бренда.</div>
       </div>
       <div class="sh-right">
-        <div class="sh-desc">Каждый проект начинается с вопроса: что Ваш бренд хочет сказать — и как это превратить в вещь, форму, материал, деталь.</div>
+        <div class="sh-desc">Результат — не сувенир «для галочки», а вещь, которую хочется носить.</div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="app-grid reveal">
-      <div class="app-cell">
-        <div class="app-num">A / Было</div>
-        <div class="app-text strike-out">Берём буквы и наносим их на ткань. Шаблон, который подходит всем — и поэтому не подходит никому.</div>
+<!-- FEATURED -->
+<section class="featured" id="featured">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <div class="sh-left">
+        <div>
+          <div class="sh-tag">003 / Крупным планом</div>
+          <div class="sh-title">Идея —<br>в детали</div>
+        </div>
+        <div class="sh-desc">Как смысл бренда становится вещью.</div>
       </div>
-      <div class="app-cell dark">
-        <div class="app-num">B / Стало</div>
-        <div class="app-text">Мы свяжем Ваши <b>смыслы</b>. Мы сошьём Ваши <b>смыслы</b>. Мы нанесём на одежду Ваши <b>ценности</b>.</div>
+      <div class="sh-right">
+        <div class="sh-desc">Премиальный мерч для брендов, которым нужна уникальная концепция.</div>
       </div>
     </div>
+    <div class="feat-grid reveal">
 
-    <div class="compare">
-      <div class="cmp-row reveal">
-        <div class="cmp-idx">01</div>
-        <div class="cmp-cell no">Логотип на белом фоне</div>
-        <div class="cmp-cell yes">Концепция от ДНК бренда</div>
+      <div class="feat-card">
+        <div class="feat-visual">
+          <div class="feat-badge">&#9733; Silver Mercury — серебро</div>
+          <img src="images/porvem-feat.webp" alt="Свитер «Порвём за Россию» крупным планом">
+        </div>
+        <div class="feat-body">
+          <div class="feat-tag">Russia Today · Премия</div>
+          <div class="feat-title">Порвём за Россию</div>
+          <div class="feat-line">«Лучший событийный мерч» — эмоция, которую зритель надевает на себя.</div>
+        </div>
       </div>
-      <div class="cmp-row reveal">
-        <div class="cmp-idx">02</div>
-        <div class="cmp-cell no">Готовые шаблоны каталога</div>
-        <div class="cmp-cell yes">Разработка с нуля</div>
+
+      <div class="feat-card">
+        <div class="feat-visual"><img src="images/nmg1.webp" alt="Кардиган Тюльпаны крупным планом"></div>
+        <div class="feat-body">
+          <div class="feat-tag">НМГ Продакшен · Кино</div>
+          <div class="feat-title">Кардиган «Тюльпаны»</div>
+          <div class="feat-line">Фильм, который можно носить.</div>
+        </div>
       </div>
-      <div class="cmp-row reveal">
-        <div class="cmp-idx">03</div>
-        <div class="cmp-cell no">Унификация под все бренды</div>
-        <div class="cmp-cell yes">Уникальный язык формы</div>
+
+      <div class="feat-card">
+        <div class="feat-visual"><img src="images/nmg2.webp" alt="Кардиган Яга крупным планом"></div>
+        <div class="feat-body">
+          <div class="feat-tag">НМГ Продакшен · Кино</div>
+          <div class="feat-title">Кардиган «Яга»</div>
+          <div class="feat-line">Сказка, прочитанная в крое.</div>
+        </div>
       </div>
-      <div class="cmp-row reveal">
-        <div class="cmp-idx">04</div>
-        <div class="cmp-cell no">Сувенир «для галочки»</div>
-        <div class="cmp-cell yes">Вещь, которую хотят носить</div>
-      </div>
+
     </div>
   </div>
 </section>
@@ -405,13 +452,13 @@ footer { background: var(--cream); border-top: 1px solid var(--ink); }
     <div class="sec-header reveal">
       <div class="sh-left">
         <div>
-          <div class="sh-tag">003 / Кейсы</div>
+          <div class="sh-tag">004 / Кейсы</div>
           <div class="sh-title">Смыслы,<br>которые мы<br>транслировали</div>
         </div>
-        <div class="sh-desc">Каждый проект — перевод бренд-идеи на язык материала, кроя и детали.</div>
+        <div class="sh-desc">Каждый проект — отдельная история бренда в крое и детали.</div>
       </div>
       <div class="sh-right">
-        <div class="sh-desc">Ниже — три примера того, как мы находим суть бренда и превращаем её в вещь, не похожую ни на что другое на рынке.</div>
+        <div class="sh-desc">Три примера — пролистайте фото каждого проекта.</div>
       </div>
     </div>
 
@@ -439,7 +486,7 @@ footer { background: var(--cream); border-top: 1px solid var(--ink); }
       <div class="case-content">
         <div class="cc-tag">Коллаборация · Государственная корпорация</div>
         <div class="cc-title">Главкосмос × SelSovet</div>
-        <div class="cc-desc">Коллаборация с дочерней компанией Роскосмоса. Советское освоение космоса как часть культурного кода — не музейный экспонат, а живая ценность, заложенная в крой и детали коллекции.</div>
+        <div class="cc-desc">Коллаборация с дочерней компанией Роскосмоса. Советский космос как живой код — в крое и деталях коллекции.</div>
         <div class="cc-meta">
           <div class="ccm-item"><div class="ccm-label">Тип</div><div class="ccm-val">Коллаборация</div></div>
           <div class="ccm-item"><div class="ccm-label">Сектор</div><div class="ccm-val">Госкорпорация</div></div>
@@ -475,7 +522,7 @@ footer { background: var(--cream); border-top: 1px solid var(--ink); }
       <div class="case-content">
         <div class="cc-tag">Дроп · Брендовая коллекция</div>
         <div class="cc-title">Drop «Советский спорт»</div>
-        <div class="cc-desc">Коллекция, основанная на эстетике советского спортивного движения. Не ностальгия, а переосмысление: воля, коллективизм и честная борьба — ценности, упакованные в современный крой.</div>
+        <div class="cc-desc">Эстетика советского спорта без ностальгии. Воля и характер — в современном крое.</div>
         <div class="cc-meta">
           <div class="ccm-item"><div class="ccm-label">Тип</div><div class="ccm-val">Брендовый дроп</div></div>
           <div class="ccm-item"><div class="ccm-label">Период</div><div class="ccm-val">Сезонная коллекция</div></div>
@@ -513,7 +560,7 @@ footer { background: var(--cream); border-top: 1px solid var(--ink); }
       <div class="case-content">
         <div class="cc-tag">Лимитированный мерч · Кино</div>
         <div class="cc-title">НМГ Продакшен «Тюльпаны»</div>
-        <div class="cc-desc">Кардиган «Тюльпаны» — создан специально к выходу одноимённого фильма. Также разработали лимитированные позиции для других фильмов студии. Каждая вещь несёт визуальный код картины.</div>
+        <div class="cc-desc">Кардиганы к выходу фильмов «Тюльпаны» и «Яга». Кино, которое можно носить.</div>
         <div class="cc-meta">
           <div class="ccm-item"><div class="ccm-label">Тип</div><div class="ccm-val">Лимитированный дроп</div></div>
           <div class="ccm-item"><div class="ccm-label">Сектор</div><div class="ccm-val">Кинопроизводство</div></div>
@@ -530,21 +577,21 @@ footer { background: var(--cream); border-top: 1px solid var(--ink); }
     <div class="sec-header reveal">
       <div class="sh-left">
         <div>
-          <div class="sh-tag">004 / Процесс</div>
+          <div class="sh-tag">005 / Процесс</div>
           <div class="sh-title">От идеи до<br>готовой вещи</div>
         </div>
-        <div class="sh-desc">Пять этапов — в каждом мы работаем от Вашего бренда, а не по шаблону.</div>
+        <div class="sh-desc">Полный цикл — от концепции до доставки.</div>
       </div>
       <div class="sh-right">
-        <div class="sh-desc">Прозрачный процесс с фиксацией результата на каждом шаге — Вы всегда понимаете, на каком этапе проект.</div>
+        <div class="sh-desc">Прозрачно на каждом шаге.</div>
       </div>
     </div>
     <div class="proc-grid reveal">
-      <div class="proc-cell"><div class="pc-num">01</div><div class="pc-title">Бриф</div><div class="pc-desc">Изучаем ДНК бренда, аудиторию и контекст. Ищем смыслы для трансляции.</div></div>
-      <div class="proc-cell"><div class="pc-num">02</div><div class="pc-title">Концепция</div><div class="pc-desc">Разрабатываем дизайн-язык: форма, материал, деталь — единая идея.</div></div>
-      <div class="proc-cell"><div class="pc-num">03</div><div class="pc-title">Согласование</div><div class="pc-desc">Утверждаете концепцию и материалы. Образец — по запросу.</div></div>
-      <div class="proc-cell"><div class="pc-num">04</div><div class="pc-title">Производство</div><div class="pc-desc">Изготавливаем тираж с контролем качества на каждом этапе.</div></div>
-      <div class="proc-cell"><div class="pc-num">05</div><div class="pc-title">Доставка</div><div class="pc-desc">Доставляем так, чтобы получение тоже было частью идеи.</div></div>
+      <div class="proc-cell"><div class="pc-num">01</div><div class="pc-title">Бриф</div><div class="pc-desc">Смысл и задача бренда.</div></div>
+      <div class="proc-cell"><div class="pc-num">02</div><div class="pc-title">Концепция</div><div class="pc-desc">Дизайн, форма, материал.</div></div>
+      <div class="proc-cell"><div class="pc-num">03</div><div class="pc-title">Согласование</div><div class="pc-desc">Макеты и образец.</div></div>
+      <div class="proc-cell"><div class="pc-num">04</div><div class="pc-title">Производство</div><div class="pc-desc">Тираж с контролем качества.</div></div>
+      <div class="proc-cell"><div class="pc-num">05</div><div class="pc-title">Доставка</div><div class="pc-desc">В срок, в нужные точки.</div></div>
     </div>
   </div>
 </section>
@@ -554,9 +601,9 @@ footer { background: var(--cream); border-top: 1px solid var(--ink); }
   <div class="wrap">
     <div class="cta-grid">
       <div class="cta-left">
-        <div class="cta-tag">005 / Контакт</div>
-        <div class="cta-title">Расскажите<br>о Вашем<br><span>проекте</span></div>
-        <p class="cta-desc">Обсудим задачу, найдём смыслы Вашего бренда и предложим решение, которого ещё не было ни у кого. Каждый проект начинается с разговора — а не с прайс-листа.</p>
+        <div class="cta-tag">006 / Контакт</div>
+        <div class="cta-title">Обсудим<br>ваш<br><span>проект</span></div>
+        <p class="cta-desc">Посмотрели, что мы делаем. Остальное обсудим лично — расскажите о задаче.</p>
       </div>
       <div class="cta-right">
         <a href="mailto:merch@selsovet.store" class="cta-link">
@@ -589,9 +636,9 @@ footer { background: var(--cream); border-top: 1px solid var(--ink); }
 
 <div class="variant-switch">
   <span class="vs-label">Кейсы</span>
-  <a href="index.html" class="active">Вариант 1</a>
+  <a href="index.html">Вариант 1</a>
   <a href="variant2.html">Вариант 2</a>
-  <a href="variant3.html">Вариант 3</a>
+  <a href="variant3.html" class="active">Вариант 3</a>
   <a href="variant4.html">Вариант 4</a>
 </div>
 <script>
