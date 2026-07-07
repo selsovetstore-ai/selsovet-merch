@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SELSOVET — Brand Merchandise System</title>
+<style>
+/* ===== SELF-HOSTED BRAND FONTS (cyrillic + latin) ===== */
+/* Tenor Sans — headings (official brand font, with Cyrillic) */
+@font-face {
+  font-family: 'Tenor Sans'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('fonts/tenor-sans-regular.woff2') format('woff2');
+}
+/* Golos Text — body */
+@font-face {
+  font-family: 'Golos Text'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('fonts/golos-text-cyrillic-400-normal.woff2') format('woff2');
+  unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;
+}
+@font-face {
+  font-family: 'Golos Text'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('fonts/golos-text-latin-400-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: 'Golos Text'; font-style: normal; font-weight: 500; font-display: swap;
+  src: url('fonts/golos-text-cyrillic-500-normal.woff2') format('woff2');
+  unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;
+}
+@font-face {
+  font-family: 'Golos Text'; font-style: normal; font-weight: 500; font-display: swap;
+  src: url('fonts/golos-text-latin-500-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+/* Playfair Display — italic accents (official brand font, with Cyrillic) */
+@font-face {
+  font-family: 'Playfair Display'; font-style: italic; font-weight: 400; font-display: swap;
+  src: url('fonts/playfair-display-italic.woff2') format('woff2');
+}
+/* ============================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --red:    #C22E2E;
+  --black:  #0E0C0A;
+  --cream:  #F2EDDF;
+  --cream2: #E8E1CE;
+  --ink:    #161310;
+  --mid:    #6B6151;
+  --muted:  #A89D88;
+  --rule:   #CDC4AC;
+  --fh: 'Tenor Sans', sans-serif;
+  --fm: 'Tenor Sans', sans-serif;
+  --fs: 'Playfair Display', serif;
+  --fb: 'Golos Text', sans-serif;
+  --max: 1320px;
+  --t: 0.3s cubic-bezier(.4,0,.2,1);
+  --col: 1px solid var(--ink);
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--fb); background: var(--cream); color: var(--ink); -webkit-font-smoothing: antialiased; }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
+
+/* GRID SYSTEM — visible structural lines */
+.grid-12 { display: grid; grid-template-columns: repeat(12, 1fr); }
+.gl { border-left: 1px solid var(--rule); }
+.gr { border-right: 1px solid var(--rule); }
+.gt { border-top: 1px solid var(--ink); }
+.gb { border-bottom: 1px solid var(--ink); }
+
+/* meta label - technical spec style */
+.mlabel { font-family: var(--fm); font-size: 11px; letter-spacing: 0.05em; color: var(--muted); text-transform: uppercase; }
+.mlabel .dot { color: var(--red); }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--cream); border-bottom: 1px solid var(--ink); }
+.nav-row { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+.nav-mark { display: flex; align-items: center; text-decoration: none; }
+.nav-mark span { color: var(--red); }
+.nav-links { display: flex; align-items: center; gap: 0; list-style: none; height: 100%; }
+.nav-links li { height: 100%; display: flex; align-items: center; border-left: 1px solid var(--rule); }
+.nav-links a { font-family: var(--fm); font-size: 12px; letter-spacing: 0.04em; color: var(--ink); text-decoration: none; padding: 0 24px; height: 100%; display: flex; align-items: center; transition: all var(--t); }
+.nav-links a:hover { background: var(--ink); color: var(--cream); }
+.nav-links a.cta { background: var(--red); color: #fff; }
+.nav-links a.cta:hover { background: var(--ink); }
+
+/* HERO */
+.hero { padding-top: 56px; background: var(--cream); }
+.hero-grid { min-height: calc(100vh - 56px); display: flex; flex-direction: column; }
+.hero-top { flex: 1; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+.hero-top-left { padding: 80px 40px 40px; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--ink); }
+.hero-top-right { padding: 80px 40px 40px; display: flex; flex-direction: column; justify-content: flex-end; }
+
+.spec-row { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 24px; margin-bottom: 40px; border-bottom: 1px solid var(--rule); }
+.spec-row .mlabel:last-child { text-align: right; }
+
+h1.hero-title { font-family: var(--fh); font-weight: 600; text-transform: uppercase; letter-spacing: -0.01em; line-height: 0.98; color: var(--ink); }
+.htl { font-size: clamp(40px, 6.2vw, 96px); display: block; }
+.htl.accent { color: var(--red); }
+
+.hero-coords { display: flex; gap: 32px; margin-top: 40px; }
+.hc-item { font-family: var(--fm); font-size: 11px; color: var(--muted); }
+.hc-item b { color: var(--ink); display: block; font-size: 14px; margin-bottom: 4px; }
+
+.hero-stmt { font-size: clamp(18px, 2vw, 24px); font-weight: 300; line-height: 1.6; color: var(--ink); max-width: 420px; margin-bottom: 40px; }
+.hero-stmt b { font-weight: 500; }
+.hero-clients-list { display: flex; flex-direction: column; gap: 0; }
+.hcl-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-top: 1px solid var(--rule); }
+.hcl-row:last-child { border-bottom: 1px solid var(--rule); }
+.hcl-name { font-family: var(--fh); font-size: 18px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+.hcl-tag { font-family: var(--fm); font-size: 11px; color: var(--muted); }
+
+/* hero bottom strip */
+.hero-bottom { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); }
+.hb-cell { padding: 24px 40px; border-right: 1px solid var(--ink); }
+.hb-cell:last-child { border-right: none; }
+.hb-num { font-family: var(--fh); font-size: 32px; font-weight: 600; color: var(--ink); line-height: 1; margin-bottom: 6px; }
+.hb-num span { color: var(--red); }
+.hb-label { font-family: var(--fm); font-size: 10px; letter-spacing: 0.05em; color: var(--muted); text-transform: uppercase; }
+
+/* SECTION HEADER (used across sections) */
+.sec-header { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); border-bottom: 1px solid var(--ink); }
+.sh-left { padding: 56px 40px; border-right: 1px solid var(--ink); display: flex; flex-direction: column; justify-content: space-between; }
+.sh-right { padding: 56px 40px; display: flex; align-items: flex-end; }
+.sh-tag { font-family: var(--fm); font-size: 11px; letter-spacing: 0.05em; color: var(--red); text-transform: uppercase; margin-bottom: 24px; }
+.sh-title { font-family: var(--fh); font-size: clamp(32px, 5vw, 64px); font-weight: 600; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.02; overflow-wrap: break-word; }
+.sh-desc { font-size: 16px; font-weight: 300; color: var(--mid); line-height: 1.8; max-width: 460px; }
+
+/* MANIFESTO / APPROACH */
+.approach { background: var(--cream); }
+.app-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); border-bottom: 1px solid var(--ink); }
+.app-cell { padding: 64px 40px; border-right: 1px solid var(--ink); }
+.app-cell:last-child { border-right: none; }
+.app-cell.dark { background: var(--ink); color: var(--cream); }
+.app-num { font-family: var(--fm); font-size: 11px; color: var(--red); margin-bottom: 24px; }
+.app-cell.dark .app-num { color: var(--red); }
+.app-text { font-size: clamp(20px, 2.4vw, 30px); font-weight: 300; line-height: 1.55; }
+.app-text b { font-weight: 500; }
+.app-text.strike-out { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1.5px; text-decoration-color: rgba(168,157,136,0.5); }
+
+/* comparison table */
+.compare { border-bottom: 1px solid var(--ink); }
+.cmp-row { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); border-top: 1px solid var(--rule); position: relative; }
+.cmp-row:first-child { border-top: none; }
+.cmp-idx { position: absolute; left: 0; top: 0; bottom: 0; width: 56px; font-family: var(--fm); font-size: 11px; color: var(--muted); display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--rule); }
+.cmp-cell { padding: 22px 40px; font-family: var(--fh); font-size: clamp(16px, 1.8vw, 22px); font-weight: 500; text-transform: uppercase; letter-spacing: 0.02em; display: flex; align-items: center; }
+.cmp-cell.no { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1px; text-decoration-color: rgba(168,157,136,0.5); border-right: 1px solid var(--rule); padding-left: 72px; }
+.cmp-cell.yes { color: var(--ink); }
+.cmp-row:hover .cmp-cell.yes { color: var(--red); }
+
+/* CASES */
+.cases-sec { background: var(--cream); }
+.case-row { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); border-bottom: 1px solid var(--ink); }
+.case-row.rev { direction: rtl; }
+.case-row.rev > * { direction: ltr; }
+.case-visual { border-right: 1px solid var(--ink); aspect-ratio: 3/4; position: relative; overflow: hidden; background: var(--cream2); }
+.case-row.rev .case-visual { border-right: none; border-left: 1px solid var(--ink); }
+.cv-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--fh); font-weight: 700; text-transform: uppercase; letter-spacing: -0.02em; color: var(--ink); opacity: 0.05; font-size: 11vw; text-align: center; line-height: 0.9; }
+.cv-corner { position: absolute; top: 24px; left: 24px; font-family: var(--fm); font-size: 11px; color: var(--muted); }
+.case-row.rev .cv-corner { left: auto; right: 24px; }
+
+.case-content { padding: 56px 48px; display: flex; flex-direction: column; justify-content: center; }
+.cc-tag { font-family: var(--fm); font-size: 11px; letter-spacing: 0.05em; color: var(--red); text-transform: uppercase; margin-bottom: 20px; }
+.cc-title { font-family: var(--fh); font-size: clamp(26px, 3.6vw, 44px); font-weight: 600; text-transform: uppercase; letter-spacing: -0.005em; line-height: 1.08; margin-bottom: 24px; }
+.cc-desc { font-size: 15px; font-weight: 300; color: var(--mid); line-height: 1.85; max-width: 460px; margin-bottom: 28px; }
+.cc-meta { display: flex; gap: 32px; padding-top: 24px; border-top: 1px solid var(--rule); }
+.ccm-item { }
+.ccm-label { font-family: var(--fm); font-size: 10px; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+.ccm-val { font-family: var(--fh); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink); }
+.ccm-val.red { color: var(--red); }
+
+/* ===== CASE CAROUSEL ===== */
+.case-carousel { position: absolute; inset: 0; overflow: hidden; }
+.cc-track { display: flex; height: 100%; transition: transform 0.6s cubic-bezier(.4,0,.2,1); }
+.cc-slide { min-width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center; }
+/* slide background tints to differentiate placeholders */
+.cc-slide[data-bg="a"] { background: var(--cream2); }
+.cc-slide[data-bg="b"] { background: #E0D8C4; }
+.cc-slide[data-bg="c"] { background: var(--ink); }
+.cc-slide[data-bg="c"] .cv-label { color: var(--cream); opacity: 0.08; }
+.cc-slide[data-bg="c"] .cv-slot-tag { color: rgba(242,237,223,0.5); }
+.cc-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cv-slot-tag { position: absolute; bottom: 24px; left: 24px; font-family: var(--fm); font-size: 11px; letter-spacing: 0.05em; color: var(--muted); text-transform: uppercase; z-index: 3; }
+.cc-caption { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; padding: 16px 20px; background: linear-gradient(to top, rgba(14,12,10,0.85) 0%, rgba(14,12,10,0) 100%); }
+.cc-caption-tag { font-family: var(--fm); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--red); margin-bottom: 4px; }
+.cc-caption-txt { font-family: var(--fh); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.02em; color: var(--cream); line-height: 1.15; }
+
+/* carousel controls */
+.cc-nav { position: absolute; z-index: 5; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border: 1px solid var(--ink); background: var(--cream); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--t); font-family: var(--fh); font-size: 18px; color: var(--ink); user-select: none; }
+.cc-nav:hover { background: var(--ink); color: var(--cream); }
+.cc-nav.prev { left: 20px; }
+.cc-nav.next { right: 20px; }
+.cc-counter { position: absolute; z-index: 5; top: 24px; right: 24px; font-family: var(--fm); font-size: 12px; letter-spacing: 0.05em; color: var(--ink); background: var(--cream); padding: 6px 12px; border: 1px solid var(--ink); }
+.case-row.rev .cv-corner { left: 24px; right: auto; }
+/* keep corner index top-left always; counter top-right */
+
+@media (max-width: 960px) {
+  .cc-nav { width: 38px; height: 38px; font-size: 16px; }
+  .cc-nav.prev { left: 12px; }
+  .cc-nav.next { right: 12px; }
+}
+/* ========================= */
+
+/* PROCESS */
+.process-sec { background: var(--cream); }
+.proc-grid { display: grid; grid-template-columns: repeat(5, 1fr); }
+.proc-cell { padding: 48px 28px; border-right: 1px solid var(--ink); position: relative; min-height: 280px; display: flex; flex-direction: column; }
+.proc-cell:last-child { border-right: none; }
+.proc-cell:hover { background: var(--ink); color: var(--cream); }
+.proc-cell:hover .pc-num { color: var(--red); }
+.proc-cell:hover .pc-desc { color: rgba(242,237,223,0.5); }
+.pc-num { font-family: var(--fh); font-size: 48px; font-weight: 700; color: var(--rule); line-height: 1; margin-bottom: auto; transition: color var(--t); }
+.pc-title { font-family: var(--fh); font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin: 24px 0 12px; }
+.pc-desc { font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.6; transition: color var(--t); }
+
+/* CTA */
+.cta-sec { background: var(--ink); color: var(--cream); }
+.cta-grid { display: grid; grid-template-columns: minmax(0,1.4fr) minmax(0,1fr); }
+.cta-left { padding: 80px 48px; border-right: 1px solid rgba(242,237,223,0.15); }
+.cta-tag { font-family: var(--fm); font-size: 11px; letter-spacing: 0.05em; color: var(--red); text-transform: uppercase; margin-bottom: 32px; }
+.cta-title { font-family: var(--fh); font-size: clamp(36px, 6vw, 80px); font-weight: 600; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.02; margin-bottom: 32px; }
+.cta-title span { color: var(--red); }
+.cta-desc { font-size: 16px; font-weight: 300; color: rgba(242,237,223,0.5); line-height: 1.85; max-width: 480px; }
+
+.cta-right { display: flex; flex-direction: column; }
+.cta-link { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 48px; border-bottom: 1px solid rgba(242,237,223,0.15); text-decoration: none; color: var(--cream); transition: all var(--t); position: relative; overflow: hidden; }
+.cta-link:last-child { border-bottom: none; }
+.cta-link::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--red); transition: width var(--t); }
+.cta-link:hover::before { width: 6px; }
+.cta-link:hover { padding-left: 60px; }
+.cl-label { font-family: var(--fm); font-size: 10px; color: rgba(242,237,223,0.35); text-transform: uppercase; margin-bottom: 8px; }
+.cl-value { font-family: var(--fh); font-size: 22px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.02em; }
+
+/* FOOTER */
+footer { background: var(--cream); border-top: 1px solid var(--ink); }
+.foot-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+.foot-cell { padding: 24px 40px; border-right: 1px solid var(--rule); display: flex; align-items: center; }
+.foot-cell:last-child { border-right: none; justify-content: flex-end; }
+.foot-mark { display: flex; align-items: center; }
+.foot-links { display: flex; gap: 24px; list-style: none; }
+.foot-links a { font-family: var(--fm); font-size: 12px; color: var(--muted); text-decoration: none; transition: color var(--t); }
+.foot-links a:hover { color: var(--ink); }
+.foot-meta { font-family: var(--fm); font-size: 11px; color: var(--muted); }
+
+/* REVEAL ANIM */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1); }
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+/* MOBILE */
+@media (max-width: 960px) {
+  .nav-links li:not(.cta) { display: none; }
+  .hero-top, .app-grid, .sec-header, .case-row, .case-row.rev, .cta-grid { grid-template-columns: 1fr; }
+  .hero-top-left { border-right: none; border-bottom: 1px solid var(--ink); }
+  .hero-bottom { grid-template-columns: 1fr 1fr; }
+  .hb-cell:nth-child(2) { border-right: none; }
+  .hb-cell:nth-child(3), .hb-cell:nth-child(4) { border-top: 1px solid var(--ink); }
+  .app-cell { border-right: none; border-bottom: 1px solid var(--ink); }
+  .app-cell:last-child { border-bottom: none; }
+  .sh-left { border-right: none; border-bottom: 1px solid var(--ink); }
+  .cmp-row { grid-template-columns: 1fr; padding-left: 56px; }
+  .cmp-idx { width: 56px; }
+  .cmp-cell.no { padding-left: 0; border-right: none; }
+  .cmp-cell.yes { padding-left: 0; border-top: 1px solid var(--rule); }
+  .case-visual { border-right: none !important; border-left: none !important; border-bottom: 1px solid var(--ink); aspect-ratio: 3/4; order: 0 !important; max-height: 70vh; }
+  .case-content { order: 1 !important; padding: 40px 24px; }
+  .proc-grid { grid-template-columns: 1fr 1fr; }
+  .proc-cell:nth-child(2n) { border-right: none; }
+  .proc-cell:nth-child(3), .proc-cell:nth-child(4), .proc-cell:nth-child(5) { border-top: 1px solid var(--ink); }
+  .proc-cell { min-height: 200px; }
+  .cta-left { border-right: none; border-bottom: 1px solid rgba(242,237,223,0.15); }
+  .foot-grid { grid-template-columns: 1fr; }
+  .foot-cell { border-right: none; border-bottom: 1px solid var(--rule); justify-content: center !important; text-align: center; padding: 16px; }
+  .foot-cell:last-child { border-bottom: none; }
+}
+@media (max-width: 560px) {
+  .wrap { padding: 0 16px; }
+  .hero-top-left, .hero-top-right, .app-cell, .sh-left, .sh-right, .case-content { padding: 40px 24px; }
+  .hero-coords { flex-direction: column; gap: 12px; }
+  .cmp-cell { padding: 16px 20px; font-size: 14px; }
+  .cta-link { padding: 32px 24px; }
+}
+
+/* ===== VARIANT SWITCHER (for owner comparison) ===== */
+.variant-switch { position: fixed; right: 20px; bottom: 20px; z-index: 200; display: flex; align-items: stretch; background: var(--ink); border: 1px solid var(--ink); box-shadow: 0 8px 30px rgba(14,12,10,0.25); font-family: var(--fm); }
+.variant-switch a { padding: 12px 18px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: rgba(242,237,223,0.5); transition: all var(--t); display: flex; align-items: center; }
+.variant-switch a.active { background: var(--red); color: #fff; }
+.variant-switch a:not(.active):hover { color: var(--cream); }
+.variant-switch .vs-label { padding: 12px 14px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(242,237,223,0.3); border-right: 1px solid rgba(242,237,223,0.12); display: flex; align-items: center; }
+@media (max-width: 640px) { .variant-switch { right: 12px; bottom: 12px; } .variant-switch .vs-label { display: none; } .variant-switch a { padding: 10px 14px; font-size: 11px; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="wrap">
+    <div class="nav-row">
+      <a href="#" class="nav-mark"><img src="images/logo.png" alt="SELSOVET" style="height:40px;display:block;"></a>
+      <ul class="nav-links">
+        <li><a href="#approach">Подход</a></li>
+        <li><a href="#cases">Кейсы</a></li>
+        <li><a href="#process">Процесс</a></li>
+        <li><a href="#contact" class="cta">Связаться →</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-top">
+        <div class="hero-top-left">
+          <div class="spec-row">
+            <span class="mlabel">Индивидуальный мерч<span class="dot"> · </span>с 2017 года</span>
+            <span class="mlabel">001 / Обзор</span>
+          </div>
+          <h1 class="hero-title">
+            <span class="htl">Мерч —</span>
+            <span class="htl accent">это язык</span>
+            <span class="htl">бренда</span>
+          </h1>
+          <div class="hero-coords">
+            <div class="hc-item"><b>Полный цикл</b>от концепции до доставки</div>
+            <div class="hc-item"><b>8 лет</b>опыта в производстве</div>
+            <div class="hc-item"><b>1000+</b>позиций разработано</div>
+          </div>
+        </div>
+        <div class="hero-top-right">
+          <p class="hero-stmt">Мы не наносим логотип на футболку. Мы переводим <b>ДНК бренда</b> на язык вещей — так, чтобы её можно было держать в руках.</p>
+          <div class="hero-clients-list">
+            <div class="hcl-row"><span class="hcl-name">ВГТРК</span><span class="hcl-tag">Медиахолдинг</span></div>
+            <div class="hcl-row"><span class="hcl-name">Russia Today</span><span class="hcl-tag">Телеканал</span></div>
+            <div class="hcl-row"><span class="hcl-name">Интервидение</span><span class="hcl-tag">Медиа</span></div>
+            <div class="hcl-row"><span class="hcl-name">НМГ Продакшен</span><span class="hcl-tag">Кино</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-bottom">
+        <div class="hb-cell"><div class="hb-num">8<span>+</span></div><div class="hb-label">Лет на рынке</div></div>
+        <div class="hb-cell"><div class="hb-num">1000<span>+</span></div><div class="hb-label">Позиций</div></div>
+        <div class="hb-cell"><div class="hb-num">20<span>+</span></div><div class="hb-label">Коллекций</div></div>
+        <div class="hb-cell"><div class="hb-num">14</div><div class="hb-label">Дней в среднем</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="approach" id="approach">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <div class="sh-left">
+        <div>
+          <div class="sh-tag">002 / Подход</div>
+          <div class="sh-title">Ваши ценности —<br>в каждой детали</div>
+        </div>
+        <div class="sh-desc">Стандартный мерч — это белый фон и чёрные буквы. Мы зачёркиваем этот подход и работаем от смыслов Вашего бренда.</div>
+      </div>
+      <div class="sh-right">
+        <div class="sh-desc">Каждый проект начинается с вопроса: что Ваш бренд хочет сказать — и как это превратить в вещь, форму, материал, деталь.</div>
+      </div>
+    </div>
+
+    <div class="app-grid reveal">
+      <div class="app-cell">
+        <div class="app-num">A / Было</div>
+        <div class="app-text strike-out">Берём буквы и наносим их на ткань. Шаблон, который подходит всем — и поэтому не подходит никому.</div>
+      </div>
+      <div class="app-cell dark">
+        <div class="app-num">B / Стало</div>
+        <div class="app-text">Мы свяжем Ваши <b>смыслы</b>. Мы сошьём Ваши <b>смыслы</b>. Мы нанесём на одежду Ваши <b>ценности</b>.</div>
+      </div>
+    </div>
+
+    <div class="compare">
+      <div class="cmp-row reveal">
+        <div class="cmp-idx">01</div>
+        <div class="cmp-cell no">Логотип на белом фоне</div>
+        <div class="cmp-cell yes">Концепция от ДНК бренда</div>
+      </div>
+      <div class="cmp-row reveal">
+        <div class="cmp-idx">02</div>
+        <div class="cmp-cell no">Готовые шаблоны каталога</div>
+        <div class="cmp-cell yes">Разработка с нуля</div>
+      </div>
+      <div class="cmp-row reveal">
+        <div class="cmp-idx">03</div>
+        <div class="cmp-cell no">Унификация под все бренды</div>
+        <div class="cmp-cell yes">Уникальный язык формы</div>
+      </div>
+      <div class="cmp-row reveal">
+        <div class="cmp-idx">04</div>
+        <div class="cmp-cell no">Сувенир «для галочки»</div>
+        <div class="cmp-cell yes">Вещь, которую хотят носить</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="cases-sec" id="cases">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <div class="sh-left">
+        <div>
+          <div class="sh-tag">003 / Кейсы</div>
+          <div class="sh-title">Смыслы,<br>которые мы<br>транслировали</div>
+        </div>
+        <div class="sh-desc">Каждый проект — перевод бренд-идеи на язык материала, кроя и детали.</div>
+      </div>
+      <div class="sh-right">
+        <div class="sh-desc">Ниже — три примера того, как мы находим суть бренда и превращаем её в вещь, не похожую ни на что другое на рынке.</div>
+      </div>
+    </div>
+
+    <!-- Главкосмос -->
+    <div class="case-row reveal">
+      <div class="case-visual">
+        <div class="cv-corner">2.1 / Главкосмос</div>
+        <div class="case-carousel" data-carousel>
+          <div class="cc-track">
+            <div class="cc-slide" data-photo>
+              <img src="images/glavkos3.webp" alt="Главкосмос × SelSovet — свитер Главкосмос">
+            </div>
+            <div class="cc-slide" data-photo>
+              <img src="images/glavkos2.webp" alt="Главкосмос × SelSovet — Let's go to space">
+            </div>
+            <div class="cc-slide" data-photo>
+              <img src="images/glavkos1.webp" alt="Главкосмос × SelSovet — свитер Наши">
+            </div>
+          </div>
+          <div class="cc-counter"><span class="cc-cur">1</span> / 3</div>
+          <div class="cc-nav prev">&#8249;</div>
+          <div class="cc-nav next">&#8250;</div>
+        </div>
+      </div>
+      <div class="case-content">
+        <div class="cc-tag">Коллаборация · Государственная корпорация</div>
+        <div class="cc-title">Главкосмос × SelSovet</div>
+        <div class="cc-desc">Коллаборация с дочерней компанией Роскосмоса. Советское освоение космоса как часть культурного кода — не музейный экспонат, а живая ценность, заложенная в крой и детали коллекции.</div>
+        <div class="cc-meta">
+          <div class="ccm-item"><div class="ccm-label">Тип</div><div class="ccm-val">Коллаборация</div></div>
+          <div class="ccm-item"><div class="ccm-label">Сектор</div><div class="ccm-val">Госкорпорация</div></div>
+          <div class="ccm-item"><div class="ccm-label">Смысл</div><div class="ccm-val red">Живой культурный код</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Советский спорт -->
+    <div class="case-row rev reveal">
+      <div class="case-visual">
+        <div class="cv-corner">2.2 / Советский спорт</div>
+        <div class="case-carousel" data-carousel>
+          <div class="cc-track">
+            <div class="cc-slide" data-photo>
+              <img src="images/sovsport4.webp" alt="Советский спорт — костюм">
+            </div>
+            <div class="cc-slide" data-photo>
+              <img src="images/sovsport3.webp" alt="Советский спорт — свитшот">
+            </div>
+            <div class="cc-slide" data-photo>
+              <img src="images/sovsport2.webp" alt="Советский спорт — футболка СПОРТ 1922">
+            </div>
+            <div class="cc-slide" data-photo>
+              <img src="images/sovsport1.webp" alt="Советский спорт — бомбер">
+            </div>
+          </div>
+          <div class="cc-counter"><span class="cc-cur">1</span> / 4</div>
+          <div class="cc-nav prev">&#8249;</div>
+          <div class="cc-nav next">&#8250;</div>
+        </div>
+      </div>
+      <div class="case-content">
+        <div class="cc-tag">Дроп · Брендовая коллекция</div>
+        <div class="cc-title">Drop «Советский спорт»</div>
+        <div class="cc-desc">Коллекция, основанная на эстетике советского спортивного движения. Не ностальгия, а переосмысление: воля, коллективизм и честная борьба — ценности, упакованные в современный крой.</div>
+        <div class="cc-meta">
+          <div class="ccm-item"><div class="ccm-label">Тип</div><div class="ccm-val">Брендовый дроп</div></div>
+          <div class="ccm-item"><div class="ccm-label">Период</div><div class="ccm-val">Сезонная коллекция</div></div>
+          <div class="ccm-item"><div class="ccm-label">Смысл</div><div class="ccm-val red">Воля и коллективизм</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- НМГ -->
+    <div class="case-row reveal">
+      <div class="case-visual">
+        <div class="cv-corner">2.3 / НМГ Продакшен</div>
+        <div class="case-carousel" data-carousel>
+          <div class="cc-track">
+            <div class="cc-slide" data-photo>
+              <img src="images/nmg2.webp" alt="Кардиган Тюльпаны — к фильму Тюльпаны">
+              <div class="cc-caption">
+                <div class="cc-caption-tag">Фильм «Тюльпаны»</div>
+                <div class="cc-caption-txt">Кардиган «Тюльпаны»</div>
+              </div>
+            </div>
+            <div class="cc-slide" data-photo>
+              <img src="images/nmg1.webp" alt="Кардиган Яга — к фильму Яга на нашу голову">
+              <div class="cc-caption">
+                <div class="cc-caption-tag">Фильм «Яга на нашу голову»</div>
+                <div class="cc-caption-txt">Кардиган «Яга»</div>
+              </div>
+            </div>
+          </div>
+          <div class="cc-counter"><span class="cc-cur">1</span> / 2</div>
+          <div class="cc-nav prev">&#8249;</div>
+          <div class="cc-nav next">&#8250;</div>
+        </div>
+      </div>
+      <div class="case-content">
+        <div class="cc-tag">Лимитированный мерч · Кино</div>
+        <div class="cc-title">НМГ Продакшен «Тюльпаны»</div>
+        <div class="cc-desc">Кардиган «Тюльпаны» — создан специально к выходу одноимённого фильма. Также разработали лимитированные позиции для других фильмов студии. Каждая вещь несёт визуальный код картины.</div>
+        <div class="cc-meta">
+          <div class="ccm-item"><div class="ccm-label">Тип</div><div class="ccm-val">Лимитированный дроп</div></div>
+          <div class="ccm-item"><div class="ccm-label">Сектор</div><div class="ccm-val">Кинопроизводство</div></div>
+          <div class="ccm-item"><div class="ccm-label">Смысл</div><div class="ccm-val red">Носимое переживание</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-sec" id="process">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <div class="sh-left">
+        <div>
+          <div class="sh-tag">004 / Процесс</div>
+          <div class="sh-title">От идеи до<br>готовой вещи</div>
+        </div>
+        <div class="sh-desc">Пять этапов — в каждом мы работаем от Вашего бренда, а не по шаблону.</div>
+      </div>
+      <div class="sh-right">
+        <div class="sh-desc">Прозрачный процесс с фиксацией результата на каждом шаге — Вы всегда понимаете, на каком этапе проект.</div>
+      </div>
+    </div>
+    <div class="proc-grid reveal">
+      <div class="proc-cell"><div class="pc-num">01</div><div class="pc-title">Бриф</div><div class="pc-desc">Изучаем ДНК бренда, аудиторию и контекст. Ищем смыслы для трансляции.</div></div>
+      <div class="proc-cell"><div class="pc-num">02</div><div class="pc-title">Концепция</div><div class="pc-desc">Разрабатываем дизайн-язык: форма, материал, деталь — единая идея.</div></div>
+      <div class="proc-cell"><div class="pc-num">03</div><div class="pc-title">Согласование</div><div class="pc-desc">Утверждаете концепцию и материалы. Образец — по запросу.</div></div>
+      <div class="proc-cell"><div class="pc-num">04</div><div class="pc-title">Производство</div><div class="pc-desc">Изготавливаем тираж с контролем качества на каждом этапе.</div></div>
+      <div class="proc-cell"><div class="pc-num">05</div><div class="pc-title">Доставка</div><div class="pc-desc">Доставляем так, чтобы получение тоже было частью идеи.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="contact">
+  <div class="wrap">
+    <div class="cta-grid">
+      <div class="cta-left">
+        <div class="cta-tag">005 / Контакт</div>
+        <div class="cta-title">Расскажите<br>о Вашем<br><span>проекте</span></div>
+        <p class="cta-desc">Обсудим задачу, найдём смыслы Вашего бренда и предложим решение, которого ещё не было ни у кого. Каждый проект начинается с разговора — а не с прайс-листа.</p>
+      </div>
+      <div class="cta-right">
+        <a href="mailto:merch@selsovet.store" class="cta-link">
+          <div class="cl-label">Email</div>
+          <div class="cl-value">merch@selsovet.store</div>
+        </a>
+        <a href="https://t.me/merch_selsovet" class="cta-link">
+          <div class="cl-label">Telegram</div>
+          <div class="cl-value">@merch_selsovet</div>
+        </a>
+        <a href="tel:+78001000765" class="cta-link">
+          <div class="cl-label">Телефон</div>
+          <div class="cl-value">8 800 100 07 65</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-cell"><div class="foot-mark"><img src="images/logo.png" alt="SELSOVET" style="height:48px;display:block;"></div></div>
+      <div class="foot-cell"><ul class="foot-links"><li><a href="#">Политика конфиденциальности</a></li></ul></div>
+      <div class="foot-cell"><div class="foot-meta">Индивидуальный мерч · с 2017 года</div></div>
+    </div>
+  </div>
+</footer>
+
+<div class="variant-switch">
+  <span class="vs-label">Кейсы</span>
+  <a href="index.html" class="active">Вариант 1</a>
+  <a href="variant3.html">Вариант 3</a>
+  <a href="variant4.html">Вариант 4</a>
+</div>
+<script>
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ===== CASE CAROUSELS =====
+document.querySelectorAll('[data-carousel]').forEach(function(car) {
+  var track = car.querySelector('.cc-track');
+  var slides = car.querySelectorAll('.cc-slide');
+  var cur = car.querySelector('.cc-cur');
+  var prev = car.querySelector('.cc-nav.prev');
+  var next = car.querySelector('.cc-nav.next');
+  var total = slides.length;
+  var index = 0;
+  // Hide nav + counter when a carousel has only one slide (placeholder state)
+  if (total <= 1) {
+    if (prev) prev.style.display = 'none';
+    if (next) next.style.display = 'none';
+    var counter = car.querySelector('.cc-counter');
+    if (counter) counter.style.display = 'none';
+  }
+
+  function go(i) {
+    index = (i + total) % total;
+    track.style.transform = 'translateX(-' + (index * 100) + '%)';
+    if (cur) cur.textContent = (index + 1);
+  }
+  prev.addEventListener('click', function() { go(index - 1); });
+  next.addEventListener('click', function() { go(index + 1); });
+
+  // Touch swipe
+  var startX = 0, dragging = false;
+  car.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; dragging = true; }, {passive:true});
+  car.addEventListener('touchend', function(e) {
+    if (!dragging) return;
+    dragging = false;
+    var dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) { go(dx < 0 ? index + 1 : index - 1); }
+  }, {passive:true});
+});
+
+</script>
+</body>
+</html>
